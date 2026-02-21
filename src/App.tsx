@@ -1,4 +1,5 @@
 import FormOne from "./form/FormOne"
+import FormThree from "./form/FormThree"
 import FormTwo from "./form/FormTwo"
 import SideBar from "./layouts/SideBar"
 
@@ -11,7 +12,8 @@ function App() {
       <section className="w-5xl bg-white p-4 rounded-2xl h-165 shadow-md flex items-center justify-between">
         <SideBar/>
         {/* <FormOne/> */}
-        <FormTwo/>
+        {/* <FormTwo/> */}
+        <FormThree/>
       </section>
     </main>
   )
