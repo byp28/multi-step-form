@@ -20,7 +20,7 @@ export default function Step({step} : {step:IStep}) {
         <span className="w-full hidden max-lg:block h-25"></span>
         <div className="flex max-lg:hidden flex-col gap-1 z-2">
             <span className="text-[#AAADFF] text-sm">STEP {step.stepNumber}</span>
-            <span className="text-white text-base font-semibold">{step.name}</span>
+            <span className="text-white text-base">{step.name}</span>
         </div>
     </div>
   )

@@ -1,23 +1,32 @@
 import { useState } from "react"
 import { currentAddon, type IAddOn } from "../features/add_on"
 import AddOn from "../components/AddOn"
+import { useDispatch, useSelector } from "react-redux"
+import type { TReducer } from "../Store"
+import { nextStep, prevStep } from "../features/steps"
+import { setAddon } from "../features/multi_form_slice"
 
 
 export default function FormThree() {
 
-    const [selectAddon, setSelectAddon] = useState<IAddOn[]>([])
+    const multiForm = useSelector((state:TReducer)=>state.multiForm)
+    const dispatch = useDispatch()
+    const [selectAddon, setSelectAddon] = useState<IAddOn[]>([...multiForm.addOn])
 
     //:)
     const addAddOn = (add_on:IAddOn)=>{
         selectAddon.push(add_on)
-        console.log(selectAddon)
     }
 
     const removeAddOn = (add_on:IAddOn)=>{
         let newArray = selectAddon
         newArray.splice(newArray.findIndex((a)=> a===add_on),1)
         setSelectAddon(newArray)
-        console.log(selectAddon)
+    }
+
+    const submitAddon = ()=>{
+        dispatch(setAddon({addOn : selectAddon}))
+        dispatch(nextStep(1))
     }
 
   return (
@@ -26,12 +35,12 @@ export default function FormThree() {
         <p className="text-gray-500">Add-ons help enhance your gaming experience.</p>
         <div className="w-full flex flex-col gap-4">
             {
-                currentAddon.map((p,key)=><AddOn add_on={p} add={addAddOn} remove={removeAddOn} key={key}/>)
+                currentAddon.map((p,key)=><AddOn add_on={p} selectAddOn={selectAddon} add={addAddOn} remove={removeAddOn} key={key}/>)
             }
         </div>
-        <div className="w-full max-lg:hidden pt-10 items-center justify-between flex flex-row">
-            <button className="text-[#9A9AA4] font-semibold cursor-pointer flex items-center justify-center w-28 h-12">Go Back</button>
-            <button className="bg-[#03295A] text-white cursor-pointer flex items-center justify-center w-28 h-12 rounded-lg">Next step</button>
+        <div className="w-full max-lg:bg-white max-lg:w-full max-lg:py-8  max-lg:fixed  max-lg:-bottom-35 max-lg:px-6 max-lg:rounded-xl max-lg:left-0 pt-10 items-center justify-between flex flex-row">
+            <button onClick={()=>dispatch(prevStep(1))} className="text-[#9A9AA4] font-semibold cursor-pointer flex items-center justify-center w-28 h-12">Go Back</button>
+            <button onClick={()=>submitAddon()} className="bg-[#03295A] text-white cursor-pointer flex items-center justify-center w-28 h-12 rounded-lg">Next step</button>
         </div>
     </div>
   )
